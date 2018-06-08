@@ -20,7 +20,7 @@ class Client : public VNetClient
 {
 public:
 
-	void RPCGimmeHelloWorld()
+	void GimmeHelloWorld()
 	{
 		this->SendPacket(EPI_GimmeHelloWorld, VNetSerilizer(), [](VNetDeSerilizer& respond) {
 			std::string str;
@@ -28,14 +28,14 @@ public:
 			std::cout << str.c_str();
 		});
 	}
-	void RPCPublicChat(const std::string& message)
+	void SendPublicChat(const std::string& message)
 	{
 		VNetSerilizer ser;
 
 		ser && message;
 		this->SendPacket(EPI_PublicChat, ser);
 	}
-	bool GotPublicChat(VNetDeSerilizer& post, VNetSerilizer& respond, VNetUser* pUser)
+	bool HPublicChat(VNetDeSerilizer& post, VNetSerilizer& respond, VNetUser* pUser)
 	{
 		std::string strMessage;
 		post && strMessage;
@@ -46,7 +46,7 @@ public:
 	}
 	void RegisterRPCs()
 	{
-		VREG_RPC(EPI_PublicChat, &Client::GotPublicChat);
+		VREG_RPC(EPI_PublicChat, &Client::HPublicChat);
 	}
 };
 
@@ -55,15 +55,15 @@ class Server : public VNetServer
 public:
 	void RegisterRPCs()
 	{
-		VREG_RPC(EPI_PublicChat, &Server::RPCPublicChat);
-		VREG_RPC(EPI_GimmeHelloWorld, &Server::GimmeHelloWorld);
+		VREG_RPC(EPI_PublicChat, &Server::HPublicChat);
+		VREG_RPC(EPI_GimmeHelloWorld, &Server::HGimmeHelloWorld);
 	}
-	bool GimmeHelloWorld(VNetDeSerilizer& post, VNetSerilizer& respond, VNetUser* pUser)
+	bool HGimmeHelloWorld(VNetDeSerilizer& post, VNetSerilizer& respond, VNetUser* pUser)
 	{
 		respond && std::string("hello world.");
 		return true;
 	}
-	bool RPCPublicChat(VNetDeSerilizer& post, VNetSerilizer& respond. VNetUser* pUser)
+	bool HPublicChat(VNetDeSerilizer& post, VNetSerilizer& respond. VNetUser* pUser)
 	{
 		//replicate to the users
 		this->SendToClients(EPI_PublicChat, post.GetBytes(), post.GetSize());
