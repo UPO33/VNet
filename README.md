@@ -2,9 +2,9 @@
 A simple and comprehensive RPC library for C++
 
 
-#Note this project is not finished yet!
+### Note this project is not finished yet!
 
-#example server client code
+### Example server client code
 
 ```C++
 #include "VNet.h"
@@ -16,9 +16,9 @@ enum EPacketId : uint16_t
 	EPI_GimmeHelloWorld,
 };
 
-struct Client : public VNetClient
+class Client : public VNetClient
 {
-	std::vector<std::string> mMesssages;
+public:
 
 	void RPCGimmeHelloWorld()
 	{
@@ -40,7 +40,6 @@ struct Client : public VNetClient
 		std::string strMessage;
 		post && strMessage;
 		
-		mMesssages.push_back(strMessage);
 		std::cout << strMessage.c_str() << '\n';
 
 		return true;
@@ -51,8 +50,9 @@ struct Client : public VNetClient
 	}
 };
 
-struct Server : public VNetServer
+class Server : public VNetServer
 {
+public:
 	void RegisterRPCs()
 	{
 		VREG_RPC(EPI_PublicChat, &Server::RPCPublicChat);
