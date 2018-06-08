@@ -2,9 +2,9 @@
 A simple and comprehensive RPC library for C++
 
 
-### Note this project is not finished yet!
+#### Note this project is not finished yet!
 
-### Example server client code
+#### Example server client code:
 
 ```C++
 #include "VNet.h"
